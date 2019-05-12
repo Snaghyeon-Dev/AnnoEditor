@@ -2,11 +2,60 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <title>Anno Editor</title>
+    <style>
+      #main{
+        margin-top : 20px;
+        margin-bottom: 20px;
+        font-size: 20px;
+      }
+      #mainSqure
+      {
+        border: 10px solid pink;
+
+        width:1500px;
+        height: 800px;
+        margin: 20px;
+        center
+      }
+      #gridSqure{
+        overflow:scroll;
+        border: solid 5px black;
+        width: 800px;
+        height : 700px;
+        margin: 20px;
+      }
+      table{
+        width :2100px;
+        height : 2100px;
+      }
+    </style>
+
   </head>
   <body>
-      <script type="text/javascript">
-          document.write('hello anno1800');
-      </script>
-  </body>
+
+    <script src="./js/script.js"></script>
+
+    <div id = 'main'>
+      <center>
+      Anno 1800 Layout
+    </center>
+    </div>
+    <div id="mainSqure">
+      <div id="gridSqure">
+        <div id="grid">
+        <script type="text/javascript">
+        makeTable();
+            $('td.first').click( function() {
+                  ClickCell(this);
+            });
+        </script>
+        </div>
+      </div>
+        <input type="button" id = "button0" value="CleanMap" onClick="CleanMap(0);">
+        <!-- <input type="button" id = "button1" value="temp" onClick="temp();"> -->
+        <input type="button" id = "button2" value="button" onClick="">
+    </div>
+      </body>
 </html>
