@@ -1,13 +1,11 @@
 var newZoom =200;
-var myPoint=new Array();
-var OriginNum=0;
-var Clicked = ["clean","house"];
-function temp()
+var myPoint=[];  //mypoint는 타일의 정보를 담고있는 객체이다.
+var tempTile;
+var OriginNum=1;
+var Clicked;
+function MouseChange(cdt)
 {
-  document.getElementById("main").style.display = "none";
-}
-function getPosi(){
-  alert("aa");
+  Clicked=cdt;
 }
 function zooms(){
   document.getElementById("grid").style.zoom = newZoom+'%';
@@ -17,19 +15,16 @@ function makeTable(cr){
   var row = 0;
   var id=0;
   cr="red";
-  document.write('<table id = "tb" border="1" cellspacing="0">');
+  document.write('<table id = "tb" border="1" cellspacing="0" >  ');
   while(col<70)
   {
-    myPoint[0]=1;
-    myPoint[71]=1;
     document.write('<tr height="30">');
       while(row<70)
       {
         id=70*col+row;
-        if(myPoint[id]=="1")
-        document.write('<td  id = "'+Number(col*100+row)+'" bgcolor = "'+cr+'"class="first" width ="30">'+Number(col*100+row)+'</td>');
-        else
-        document.write('<td  id = "'+Number(col*100+row)+'" class="first" width ="30">'+Number(col*100+row)+'</td>');
+        document.write('<td  id = "'+Number(col*100+row)+'" class="first" width ="30" onclick="ClickCell(this.id);" onMouseover="MouseInCell(id);" onMouseout="MouseOutCell(id);" >'+Number(col*100+row)+'</td>');
+        var temp={"IsAvailable":0,"index":"","color":"white","excolor":""};
+        myPoint[id]=temp;
         row=row+1;
       }
     row=0;
@@ -38,45 +33,107 @@ function makeTable(cr){
   }
   document.write('</table>');
 }
-function ClickCell(num){
-  console.log("called");
-  Clicked="house";
-  if(Clicked=="house")
-    {
-      for(var i=-1;i<2;i++)
-      {
-        for(var j=-1;j<2;j++)
-        ChangeColor((Number(num.id)+Number(i)+Number(j*100)));
-      }
-      OriginNum++;
-    }
-    else if(Clicked=="clean"){
-
-    }
-}
-function ChangeColor(num)
+function MouseInCell(num) //마우스가 셀 안에 들어왔을 때
 {
-  $('#'+num).css('background-color','red')
-  myPoint[num]=OriginNum;
-  console.log(myPoint[num]);
-}
-function FindID(func){
-  for(var i=0;i<70;i++)
-  {
-    for(var j=0;j<70;j++)
+  if(Clicked=="House")
     {
-      func([Number(i)+Number(j*100)]);
+      for(var i=0;i<3;i++)
+      {
+        for(var j=0;j<3;j++)
+        {
+          var id = Number(num)+Number(i)+Number(j*100);
+          if(!IsOut(id))
+              {
+              document.getElementById(id).style.backgroundColor='red';
+              }
+        }
+      }
+    }
+}
+function MouseOutCell(num)
+{
+  if(Clicked=="House")
+    {
+      for(var i=0;i<3;i++)
+        for(var j=0;j<3;j++)
+        {
+          var id = Number(num)+Number(i)+Number(j*100);
+          if(!IsOut(id))
+              {
+               document.getElementById(id).style.backgroundColor=myPoint[id].color;
+              }
+        }
+    }
+}
+function DeleteCell(num,index)  //셀을 삭제할 때 사용
+{
+  if(myPoint[num].index != index)
+    return;
+  console.log("i'm num = "+num+"   index = "+index);
+  myPoint[num].index=0;
+  document.getElementById(num).style.backgroundColor='white';
+  document.getElementById(num).style.color='black';
+  for(var i=-1;i<=1;i++)
+  {
+    for(var j=-1;j<=1;j++)
+    {
+      if(!IsOut((Number(num)+Number(i)+Number(j*100))))
+      {
+
+          DeleteCell((Number(num)+Number(i)+Number(j*100)),index);
+      }
     }
   }
 }
-function CleanMap(ori){
-  FindID(
-    function(pa){
-      if(myPoint[pa]==ori)
-      {
-        $('#'+pa).css('background-color','white')
-        console.log(pa);
-      }
+function ClickCell(num) //셀을 클릭했을 때 나타나는 결과이다.
+{
+  if(Clicked=="House")
+    {
+      CheckAndChange(num,3,3,"'red'");
     }
-  );
+  else if(Clicked=="Delete")
+   {
+     if(myPoint[num].index!=0)
+      DeleteCell(num,myPoint[num].index);
+   }
+  else if(Clicked=="clean"){
+    }
+}
+function CheckAndChange(num,sizeX,sizeY,color)  //유효범위를 검사하고 색을 바꿔준다.
+{
+  for(var i=0;i<sizeX;i++)
+  {
+    for(var j=0;j<sizeY;j++)
+    {
+      if(IsOut((Number(num)+Number(i)+Number(j*100))))
+          return;
+      if(myPoint[(Number(num)+Number(i)+Number(j*100))].IsAvailable==1)
+          return;
+    }
+  }
+  for(var i=0;i<sizeX;i++)
+  {
+    for(var j=0;j<sizeY;j++)
+    ChangeCellColor((Number(num)+Number(i)+Number(j*100)),color);
+  }
+  OriginNum++;
+}
+function IsOut(num) //셀의 유효범위를 체크한다.
+{
+    if(num<0||num%100>=70||num/100>=70)
+    {
+        return true;
+    }
+    else {
+      return false;
+    }
+}
+function ChangeCellColor(num,color) //셀의 색을 바꾼다.
+{
+   console.log(color);
+   document.getElementById(num).style.backgroundColor=color;
+   document.getElementById(num).style.color='white';
+   myPoint[num].IsAvailable=1;
+   myPoint[num].color=color;
+   myPoint[num].index=OriginNum;
 }

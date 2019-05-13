@@ -2,7 +2,6 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <title>Anno Editor</title>
     <style>
       #main{
@@ -13,7 +12,6 @@
       #mainSqure
       {
         border: 10px solid pink;
-
         width:1500px;
         height: 800px;
         margin: 20px;
@@ -25,16 +23,34 @@
         width: 800px;
         height : 700px;
         margin: 20px;
+        display: inline-block;
+      }
+      #SelectBuilding{
+        border:  5px solid black;
+        width : 550px;
+        height : 200px;
+        margin: 20px;
+        display: inline-block;
+        vertical-align: top;
+      }
+      #SelectBuildingButton{
+        color : red;
+        display: block;
+        margin: 10px;
+        position: relative;
       }
       table{
         width :2100px;
         height : 2100px;
+        table-layout: fixed;
+      }
+      .button1{
+        color: red;
       }
     </style>
 
   </head>
   <body>
-
     <script src="./js/script.js"></script>
 
     <div id = 'main'>
@@ -42,20 +58,25 @@
       Anno 1800 Layout
     </center>
     </div>
+
     <div id="mainSqure">
       <div id="gridSqure">
         <div id="grid">
         <script type="text/javascript">
         makeTable();
-            $('td.first').click( function() {
-                  ClickCell(this);
-            });
         </script>
         </div>
+
       </div>
-        <input type="button" id = "button0" value="CleanMap" onClick="CleanMap(0);">
-        <!-- <input type="button" id = "button1" value="temp" onClick="temp();"> -->
-        <input type="button" id = "button2" value="button" onClick="">
+      <div id="SelectBuilding">
+        <div id="SelectBuildingButton">
+          <input type="button" value="생산" class="button1">
+          <input type="button" value="도시" class="button1">
+          <input type="button" value="항구" class="button1">
+        </div>
+      </div>
+        <input type="button" id = "button0" value="CleanMap" onClick="MouseChange('Delete');">
+        <input type="button" id = "button2" value="House" onClick="MouseChange('House');">
     </div>
       </body>
 </html>
