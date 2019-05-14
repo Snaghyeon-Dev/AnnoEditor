@@ -3,6 +3,26 @@ var myPoint=[];  //mypoint는 타일의 정보를 담고있는 객체이다.
 var tempTile;
 var OriginNum=1;
 var Clicked;
+var Building=[
+  [
+  "A7_Street",
+  "A7_House",
+  "A7_Marketplace",
+  "A7_Townhall",
+  "A7_Church",
+  "A7_Firestation",
+  "A7_Policestation",
+  "A7_Hospital",
+  "A7_Oilpowerplant",
+  "A7_Pub",
+  "A7_School",
+  "A7_Theater",
+  "A7_University",
+  "A7_Bank",
+  "A7_Membersclub"
+  ],
+  []
+];
 function MouseChange(cdt)
 {
   Clicked=cdt;
@@ -35,7 +55,7 @@ function makeTable(cr){
 }
 function MouseInCell(num) //마우스가 셀 안에 들어왔을 때
 {
-  if(Clicked=="House")
+  if(Clicked=="A7_House")
     {
       for(var i=0;i<3;i++)
       {
@@ -52,7 +72,7 @@ function MouseInCell(num) //마우스가 셀 안에 들어왔을 때
 }
 function MouseOutCell(num)
 {
-  if(Clicked=="House")
+  if(Clicked=="A7_House")
     {
       for(var i=0;i<3;i++)
         for(var j=0;j<3;j++)
@@ -87,7 +107,7 @@ function DeleteCell(num,index)  //셀을 삭제할 때 사용
 }
 function ClickCell(num) //셀을 클릭했을 때 나타나는 결과이다.
 {
-  if(Clicked=="House")
+  if(Clicked=="A7_House")
     {
       CheckAndChange(num,3,3,"'red'");
     }
@@ -136,4 +156,22 @@ function ChangeCellColor(num,color) //셀의 색을 바꾼다.
    myPoint[num].IsAvailable=1;
    myPoint[num].color=color;
    myPoint[num].index=OriginNum;
+}
+function ClickBuildingButton(num,id)
+{
+  console.log(Building[num][id]);
+  MouseChange(Building[num][id]);
+}
+function DrawImage(num,size) //이미지를 그려줌
+{
+  var id;
+  for(var i=0;i<size;i++)
+  {
+    id=Number(i+num*10);
+    document.write('<div class="BuildingBackImg" >');
+    document.write('<img id="'+id+'back"> ');
+    document.write('<img id="'+id+'button" class="BuildingImg" onClick="ClickBuildingButton('+num+','+id+')" ></div>');
+    document.getElementById(id+'back').src="./data/image/basic.png";
+    document.getElementById(id+'button').src=String("./data/icon/"+Building[num][id]+".png");
+  }
 }

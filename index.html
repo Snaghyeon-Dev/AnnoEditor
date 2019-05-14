@@ -12,10 +12,10 @@
       #mainSqure
       {
         border: 10px solid pink;
-        width:1500px;
+        width:1600px;
         height: 800px;
         margin: 20px;
-        center
+        margin-left: 10px;
       }
       #gridSqure{
         overflow:scroll;
@@ -27,9 +27,10 @@
       }
       #SelectBuilding{
         border:  5px solid black;
-        width : 550px;
-        height : 200px;
-        margin: 20px;
+        width : 730px;
+        height : 300px;
+        margin-top:  20px;
+        margin-left: 0px;
         display: inline-block;
         vertical-align: top;
       }
@@ -39,6 +40,30 @@
         margin: 10px;
         position: relative;
       }
+      #Building{
+        display: block;
+
+        height: 200px;
+        width: 700px;
+        margin: 10px;
+        border: brown 5px solid;
+      }
+      .BuildingBackImg{
+        width: 70px;
+        height: 100px;
+        display: inline-block;
+        position: relative;
+        vertical-align: top;
+      }
+      .BuildingImg{
+        width: 50px;
+        height: 70px;
+        margin-left: auto;
+        margin-right: auto;
+        position: absolute;
+        top : 15px;
+        left: 10px;
+      }
       table{
         width :2100px;
         height : 2100px;
@@ -46,11 +71,13 @@
       }
       .button1{
         color: red;
+        position: relative;
       }
     </style>
 
   </head>
   <body>
+
     <script src="./js/script.js"></script>
 
     <div id = 'main'>
@@ -69,10 +96,16 @@
 
       </div>
       <div id="SelectBuilding">
+        <!-- <img src="./data/image/menu.png" position="relative"> -->
         <div id="SelectBuildingButton">
           <input type="button" value="생산" class="button1">
           <input type="button" value="도시" class="button1">
           <input type="button" value="항구" class="button1">
+        </div>
+        <div id="Building">
+          <script type="text/javascript">
+             DrawImage(0,15);
+          </script>
         </div>
       </div>
         <input type="button" id = "button0" value="CleanMap" onClick="MouseChange('Delete');">
